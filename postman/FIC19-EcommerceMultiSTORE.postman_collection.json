@@ -1,0 +1,1123 @@
+{
+	"info": {
+		"_postman_id": "e52bdf7a-5662-4ce9-9cc0-8545392dcf75",
+		"name": "FIC19-EcommerceMultiSTORE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3117985",
+		"_collection_link": "https://bold-satellite-2123.postman.co/workspace/New-Team-Workspace~82ebd54c-ab06-414e-a28c-44644a99c1b6/collection/3117985-e52bdf7a-5662-4ce9-9cc0-8545392dcf75?action=share&source=collection_link&creator=3117985"
+	},
+	"item": [
+		{
+			"name": "api/seller/register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Toko Code with Bahri",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "bahri@seller.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "0234343432",
+							"type": "text"
+						},
+						{
+							"key": "address",
+							"value": "sleman",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "indonesia",
+							"type": "text"
+						},
+						{
+							"key": "province",
+							"value": "DI Yogyakarta",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "Sleman",
+							"type": "text"
+						},
+						{
+							"key": "district",
+							"value": "Mlati",
+							"type": "text"
+						},
+						{
+							"key": "postal_code",
+							"value": "32423",
+							"type": "text"
+						},
+						{
+							"key": "photo",
+							"type": "file",
+							"src": "/Users/bahri/Pictures/menu7.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/seller/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"seller",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "201",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Toko Code with Bahri",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "bahri@seller.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "0234343432",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "sleman",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "indonesia",
+									"type": "text"
+								},
+								{
+									"key": "province",
+									"value": "DI Yogyakarta",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Sleman",
+									"type": "text"
+								},
+								{
+									"key": "district",
+									"value": "Mlati",
+									"type": "text"
+								},
+								{
+									"key": "postal_code",
+									"value": "32423",
+									"type": "text"
+								},
+								{
+									"key": "photo",
+									"type": "file",
+									"src": "/Users/bahri/Pictures/menu7.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/seller/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"seller",
+								"register"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Host",
+							"value": "localhost:8000"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.2.16"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 18 Jul 2024 14:09:55 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"User registered\",\n    \"data\": {\n        \"name\": \"Toko Code with Bahri\",\n        \"email\": \"bahri@seller.com\",\n        \"phone\": \"0234343432\",\n        \"address\": \"sleman\",\n        \"country\": \"indonesia\",\n        \"province\": \"DI Yogyakarta\",\n        \"city\": \"Sleman\",\n        \"district\": \"Mlati\",\n        \"postal_code\": \"32423\",\n        \"roles\": \"seller\",\n        \"photo\": \"assets/user/xwH4yPS7SjrtqeQN5GEf7naybgegrf7Vuf8lI6GS.png\",\n        \"updated_at\": \"2024-07-18T14:09:55.000000Z\",\n        \"created_at\": \"2024-07-18T14:09:55.000000Z\",\n        \"id\": 1\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"bahri@seller.com\",\n    \"password\":\"12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"bahri@seller.com\",\n    \"password\":\"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Host",
+							"value": "localhost:8000"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.2.16"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 18 Jul 2024 14:12:19 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"User logged in\",\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"name\": \"Toko Code with Bahri\",\n            \"email\": \"bahri@seller.com\",\n            \"email_verified_at\": null,\n            \"phone\": \"0234343432\",\n            \"address\": \"sleman\",\n            \"country\": \"indonesia\",\n            \"province\": \"DI Yogyakarta\",\n            \"city\": \"Sleman\",\n            \"district\": \"Mlati\",\n            \"postal_code\": \"32423\",\n            \"roles\": \"seller\",\n            \"photo\": \"assets/user/xwH4yPS7SjrtqeQN5GEf7naybgegrf7Vuf8lI6GS.png\",\n            \"created_at\": \"2024-07-18T14:09:55.000000Z\",\n            \"updated_at\": \"2024-07-18T14:09:55.000000Z\"\n        },\n        \"token\": \"1|LYVUD7fpDCuSed4PW6AEHBD9gGeHYRCupg15gnzMade8f41f\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "api/user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 1|LYVUD7fpDCuSed4PW6AEHBD9gGeHYRCupg15gnzMade8f41f",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 1|LYVUD7fpDCuSed4PW6AEHBD9gGeHYRCupg15gnzMade8f41f",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api/buyer/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"bahri customer\",\n    \"email\":\"bahri@buyer.com\",\n    \"password\":\"12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/buyer/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buyer",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/api/seller/category",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3|cu324UYdwE4FjQpkYxzeXFVS0sFFAsI9jwkIY8vY93e4d36f",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"TV\",\n    \"description\":\"tv ok\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/seller/category",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"seller",
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8000/api/seller/categories",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3|cu324UYdwE4FjQpkYxzeXFVS0sFFAsI9jwkIY8vY93e4d36f",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"TV\",\n    \"description\":\"tv ok\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/seller/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"seller",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "save products",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3|cu324UYdwE4FjQpkYxzeXFVS0sFFAsI9jwkIY8vY93e4d36f",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "category_id",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "TV Samsung 50 inc",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "bagus banget",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "4500000",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "15",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/Users/bahri/Pictures/menu10.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/seller/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"seller",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list products",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3|cu324UYdwE4FjQpkYxzeXFVS0sFFAsI9jwkIY8vY93e4d36f",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "category_id",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "TV Samsung 50 inc",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "bagus banget",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "4500000",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "15",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/Users/bahri/Pictures/menu10.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/seller/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"seller",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update products",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3|cu324UYdwE4FjQpkYxzeXFVS0sFFAsI9jwkIY8vY93e4d36f",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "category_id",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "20",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/Users/bahri/Pictures/drink7.png"
+						},
+						{
+							"key": "name",
+							"value": "TV 32 Inc",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "tv bagus donk",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "2250000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/seller/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"seller",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete products",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3|cu324UYdwE4FjQpkYxzeXFVS0sFFAsI9jwkIY8vY93e4d36f",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "category_id",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "stock",
+							"value": "20",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/Users/bahri/Pictures/drink7.png"
+						},
+						{
+							"key": "name",
+							"value": "TV 32 Inc",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "tv bagus donk",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "2250000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/seller/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"seller",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add addresses",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 4|JbXhhvsycT3IaiCzXTcgRhrmzOGGtmjtPWXWIEGN74e428a8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address\":\"jalan kapas 21\",\n    \"country\":\"indonesia\",\n    \"province\":\"DIY\",\n    \"city\":\"Sleman\",\n    \"district\":\"Mlati\",\n    \"postal_code\":\"22332\",\n    \"is_default\":true\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/buyer/addresses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buyer",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create orders",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 4|JbXhhvsycT3IaiCzXTcgRhrmzOGGtmjtPWXWIEGN74e428a8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address_id\":1,\n    \"seller_id\":1,\n    \"items\":[\n        {\n            \"product_id\":\"2\",\n            \"quantity\":2\n        }\n    ],\n    \"shipping_cost\":10000,\n    \"shipping_service\":\"JNE\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/buyer/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buyer",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get store list",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 4|JbXhhvsycT3IaiCzXTcgRhrmzOGGtmjtPWXWIEGN74e428a8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address_id\":1,\n    \"seller_id\":1,\n    \"items\":[\n        {\n            \"product_id\":\"2\",\n            \"quantity\":2\n        }\n    ],\n    \"shipping_cost\":10000,\n    \"shipping_service\":\"JNE\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/buyer/stores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buyer",
+						"stores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get products by store id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 4|JbXhhvsycT3IaiCzXTcgRhrmzOGGtmjtPWXWIEGN74e428a8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address_id\":1,\n    \"seller_id\":1,\n    \"items\":[\n        {\n            \"product_id\":\"2\",\n            \"quantity\":2\n        }\n    ],\n    \"shipping_cost\":10000,\n    \"shipping_service\":\"JNE\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/buyer/stores/1/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buyer",
+						"stores",
+						"1",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order histories buyer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 4|JbXhhvsycT3IaiCzXTcgRhrmzOGGtmjtPWXWIEGN74e428a8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address_id\":1,\n    \"seller_id\":1,\n    \"items\":[\n        {\n            \"product_id\":\"2\",\n            \"quantity\":2\n        }\n    ],\n    \"shipping_cost\":10000,\n    \"shipping_service\":\"JNE\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/buyer/histories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buyer",
+						"histories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "seller update resi",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3|cu324UYdwE4FjQpkYxzeXFVS0sFFAsI9jwkIY8vY93e4d36f",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shipping_number\":\"JNE12321321321\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/seller/orders/1/update-resi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"seller",
+						"orders",
+						"1",
+						"update-resi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "seller histories",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 3|cu324UYdwE4FjQpkYxzeXFVS0sFFAsI9jwkIY8vY93e4d36f",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shipping_number\":\"JNE12321321321\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/seller/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"seller",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "store livestreaming",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer 4|JbXhhvsycT3IaiCzXTcgRhrmzOGGtmjtPWXWIEGN74e428a8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"address_id\":1,\n    \"seller_id\":1,\n    \"items\":[\n        {\n            \"product_id\":\"2\",\n            \"quantity\":2\n        }\n    ],\n    \"shipping_cost\":10000,\n    \"shipping_service\":\"JNE\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/buyer/stores/livestreaming",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"buyer",
+						"stores",
+						"livestreaming"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

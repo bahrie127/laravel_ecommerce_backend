@@ -17,5 +17,6 @@ class Address extends Model
         'city',
         'district',
         'postal_code',
+        'is_default',
     ];
 }
