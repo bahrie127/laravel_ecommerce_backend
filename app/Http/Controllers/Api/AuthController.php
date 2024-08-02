@@ -14,7 +14,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email',
             'password' => 'required|string',
             'phone' => 'required|string',
             'address' => 'required|string',
@@ -23,7 +23,7 @@ class AuthController extends Controller
             'city' => 'required|string',
             'district' => 'required|string',
             'postal_code' => 'required|string',
-            'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'photo' => 'required',
         ]);
 
         $photo = null;

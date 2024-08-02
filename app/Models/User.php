@@ -61,4 +61,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class);
     }
+
+    //addresses
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }
