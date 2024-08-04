@@ -64,3 +64,10 @@ Route::get('/buyer/orders/{id}/status', [App\Http\Controllers\Api\OrderControlle
 
 //get order by id
 Route::get('/orders/{id}', [App\Http\Controllers\Api\OrderController::class, 'getOrderById'])->middleware('auth:sanctum');
+
+//get agora token
+Route::post('/agora/token', [App\Http\Controllers\Api\AgoraController::class, 'getToken'])->middleware('auth:sanctum');
+
+//set is livestreaming
+Route::post('/seller/livestreaming', [App\Http\Controllers\Api\StoreController::class, 'setLivestreaming'])->middleware('auth:sanctum');
+
