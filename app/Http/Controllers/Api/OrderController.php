@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Services\Midtrans\CreateVAService;
 
 class OrderController extends Controller
 {
@@ -21,6 +22,8 @@ class OrderController extends Controller
             'items.*.quantity' => 'required|integer',
             'shipping_cost' => 'required|integer',
             'shipping_service' => 'required|string',
+            //bank va name
+            'bank_va_name' => 'required|string',
 
         ]);
 
@@ -44,14 +47,11 @@ class OrderController extends Controller
             'total_price' => $totalPrice,
             'grand_total' => $grandTotal,
             'transaction_number' => 'TRX-' . time(),
+            'payment_va_name' => $request->bank_va_name,
         ]);
 
         foreach ($request->items as $item) {
-            // $order->items()->create([
-            //     'product_id' => $item['product_id'],
-            //     'price' => $item['price'],
-            //     'quantity' => $item['quantity'],
-            // ]);
+
             $product = Product::find($item['product_id']);
             OrderItem::create([
                 'order_id' => $order->id,
@@ -60,6 +60,14 @@ class OrderController extends Controller
                 'quantity' => $item['quantity'],
             ]);
         }
+
+        //get va number
+        $vaService = new CreateVAService($order->load('orderItems.product', 'user'));
+        $response = $vaService->getVA();
+
+        $order->update([
+            'payment_va_number' => $response->va_numbers[0]->va_number,
+        ]);
 
         return response()->json([
             'status' => 'success',
@@ -108,6 +116,26 @@ class OrderController extends Controller
             'status' => 'success',
             'message' => 'List History Order Seller',
             'data' => $orders,
+        ]);
+    }
+
+    //check order status
+    public function checkOrderStatus(Request $request, $id)
+    {
+        $order = Order::find($id);
+        return response()->json([
+            'status' => $order->status,
+        ]);
+    }
+
+    //get order by id
+    public function getOrderById($id)
+    {
+        $order = Order::with('orderItems.product')->find($id);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Order',
+            'data' => $order,
         ]);
     }
 }
