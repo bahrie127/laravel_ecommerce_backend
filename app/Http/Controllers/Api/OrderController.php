@@ -8,6 +8,9 @@ use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Services\Midtrans\CreateVAService;
+use App\Models\User;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 
 class OrderController extends Controller
 {
@@ -88,11 +91,30 @@ class OrderController extends Controller
             'shipping_number' => $request->shipping_number,
         ]);
 
+        $this->sendNotificationToUser($order->user_id, 'Paket dengan nomor ' . $request->shipping_number . ' telah dikirim');
+
         return response()->json([
             'status' => 'success',
             'message' => 'Shipping number updated',
             'data' => $order,
         ]);
+    }
+
+    public function sendNotificationToUser($userId, $message)
+    {
+        // Dapatkan FCM token user dari tabel 'users'
+
+        $user = User::find($userId);
+        $token = $user->fcm_id;
+
+        // Kirim notifikasi ke perangkat Android
+        $messaging = app('firebase.messaging');
+        $notification = Notification::create('Paket Dikirim', $message);
+
+        $message = CloudMessage::withTarget('token', $token)
+            ->withNotification($notification);
+
+        $messaging->send($message);
     }
 
     //history order buyer

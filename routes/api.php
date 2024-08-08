@@ -71,3 +71,6 @@ Route::post('/agora/token', [App\Http\Controllers\Api\AgoraController::class, 'g
 //set is livestreaming
 Route::post('/seller/livestreaming', [App\Http\Controllers\Api\StoreController::class, 'setLivestreaming'])->middleware('auth:sanctum');
 
+//update fcm token
+Route::put('/update-fcm-token', [App\Http\Controllers\Api\AuthController::class, 'updateFcmToken'])->middleware('auth:sanctum');
+
