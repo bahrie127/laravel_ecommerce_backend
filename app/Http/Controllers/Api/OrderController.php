@@ -89,6 +89,7 @@ class OrderController extends Controller
         $order = Order::find($id);
         $order->update([
             'shipping_number' => $request->shipping_number,
+            'status' => 'shipping',
         ]);
 
         $this->sendNotificationToUser($order->user_id, 'Paket dengan nomor ' . $request->shipping_number . ' telah dikirim');
@@ -106,6 +107,10 @@ class OrderController extends Controller
 
         $user = User::find($userId);
         $token = $user->fcm_id;
+
+        if (!$token) {
+            return;
+        }
 
         // Kirim notifikasi ke perangkat Android
         $messaging = app('firebase.messaging');
@@ -134,6 +139,8 @@ class OrderController extends Controller
     {
         $user = $request->user();
         $orders = Order::where('seller_id', $user->id)->get();
+        //load user and order items
+        $orders->load('user', 'orderItems.product');
         return response()->json([
             'status' => 'success',
             'message' => 'List History Order Seller',
