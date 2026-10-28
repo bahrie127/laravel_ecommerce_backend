@@ -3,50 +3,39 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    //register seller
-    public function registerSeller(Request $request)
+    /**
+     * Daftar penjual. Dulu email boleh dobel (login jadi ambigu), sandi tanpa panjang minimum, dan
+     * wilayah toko bebas teks sehingga ongkir tidak bisa dihitung.
+     */
+    public function registerSeller(Request $request): JsonResponse
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required|string',
-            'phone' => 'required|string',
-            'address' => 'required|string',
-            'country' => 'required|string',
-            'province' => 'required|string',
-            'city' => 'required|string',
-            'district' => 'required|string',
-            'postal_code' => 'required|string',
-            'photo' => 'required',
-        ]);
-
-        $photo = null;
-        if ($request->hasFile('photo')) {
-            $photo = $request->file('photo')->store('assets/user', 'public');
-        }
+        $data = $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:150|unique:users,email',
+            'password' => 'required|string|min:8',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:500',
+            'country' => 'required|string|max:60',
+            'province' => 'required|integer|exists:provinces,id',
+            'city' => 'required|integer|exists:cities,id',
+            'district' => 'required|integer|exists:subdistricts,id',
+            'postal_code' => 'required|string|max:10',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ], ['email.unique' => 'Email sudah terdaftar.']);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'country' => $request->country,
-            'province' => $request->province,
-            'city' => $request->city,
-            'district' => $request->district,
-            'postal_code' => $request->postal_code,
-            'roles' => 'seller',
-            'photo' => $photo,
+            ...collect($data)->except('photo', 'password')->all(),
+            'password' => Hash::make($data['password']),
+            'roles' => User::SELLER,
+            'photo' => $request->file('photo')?->store('assets/user', 'public'),
         ]);
-
-        // $token = $user->createToken('token-name')->plainTextToken;
 
         return response()->json([
             'status' => 'success',
@@ -55,8 +44,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    //login
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         $request->validate([
             'email' => 'required|email',
@@ -65,14 +53,14 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => 'failed',
-                'message' => 'The provided credentials are incorrect.',
+                'message' => 'Email atau kata sandi salah.',
             ], 401);
         }
 
-        $token = $user->createToken('token-name')->plainTextToken;
+        $token = $user->createToken('mobile')->plainTextToken;
 
         return response()->json([
             'status' => 'success',
@@ -84,8 +72,7 @@ class AuthController extends Controller
         ], 200);
     }
 
-    //logout
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         $request->user()->currentAccessToken()->delete();
 
@@ -95,21 +82,19 @@ class AuthController extends Controller
         ], 200);
     }
 
-    //register user
-    public function registerBuyer(Request $request)
+    public function registerBuyer(Request $request): JsonResponse
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string',
-
-        ]);
+        $data = $request->validate([
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:150|unique:users,email',
+            'password' => 'required|string|min:8',
+        ], ['email.unique' => 'Email sudah terdaftar.']);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'roles' => User::BUYER,
         ]);
 
         return response()->json([
@@ -119,20 +104,17 @@ class AuthController extends Controller
         ], 201);
     }
 
-    //update fcm token
-    public function updateFcmToken(Request $request)
+    public function updateFcmToken(Request $request): JsonResponse
     {
-        $request->validate([
-            'fcm_token' => 'required|string',
+        $data = $request->validate([
+            'fcm_token' => 'required|string|max:500',
         ]);
 
-        $user = $request->user();
-        $user->fcm_token = $request->fcm_token;
-        $user->save();
+        $request->user()->update(['fcm_token' => $data['fcm_token']]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'FCM token updated'
+            'message' => 'FCM token updated',
         ], 200);
     }
 }

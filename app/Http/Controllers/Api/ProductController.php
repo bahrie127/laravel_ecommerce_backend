@@ -3,15 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
-    //index
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
-        $products = Product::where('seller_id', $request->user()->id)->with('seller')->get();
+        $products = Product::where('seller_id', $request->user()->id)
+            ->where('is_active', true)
+            ->with('category:id,name')
+            ->latest()->get();
 
         return response()->json([
             'status' => 'success',
@@ -20,31 +24,14 @@ class ProductController extends Controller
         ]);
     }
 
-    //store
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'name' => 'required|string',
-            'description' => 'string',
-            'price' => 'required',
-            'stock' => 'required|integer',
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
-
-        $image = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('assets/product', 'public');
-        }
+        $data = $request->validate($this->rules($request, imageRequired: true));
 
         $product = Product::create([
+            ...collect($data)->except('image')->all(),
             'seller_id' => $request->user()->id,
-            'category_id' => $request->category_id,
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'image' => $image,
+            'image' => $request->file('image')->store('assets/product', 'public'),
         ]);
 
         return response()->json([
@@ -54,42 +41,19 @@ class ProductController extends Controller
         ], 201);
     }
 
-    //update
-    public function update(Request $request, $id)
+    /**
+     * Dulu penjual mana pun bisa mengubah atau menghapus produk toko lain (tanpa cek pemilik).
+     */
+    public function update(Request $request, int $id): JsonResponse
     {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'name' => 'required|string',
-            'description' => 'string',
-            'price' => 'required',
-            'stock' => 'required|integer',
-            'image' => 'image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        $product = $this->ownedProduct($request, $id);
+        $data = $request->validate($this->rules($request, imageRequired: false));
 
-        $product = Product::find($id);
-
-        if (!$product) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Product not found',
-            ], 404);
-        }
-
-
-        $product->update([
-            'category_id' => $request->category_id,
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'stock' => $request->stock,
-
-        ]);
-
+        $product->fill(collect($data)->except('image')->all());
         if ($request->hasFile('image')) {
-            $image = $request->file('image')->store('assets/product', 'public');
-            $product->image = $image;
-            $product->save();
+            $product->image = $request->file('image')->store('assets/product', 'public');
         }
+        $product->save();
 
         return response()->json([
             'status' => 'success',
@@ -98,23 +62,46 @@ class ProductController extends Controller
         ]);
     }
 
-    //destroy
-    public function destroy($id)
+    /**
+     * Produk yang sudah pernah dipesan hanya dinonaktifkan: menghapusnya ikut menghapus item di riwayat
+     * order (FK cascade).
+     */
+    public function destroy(Request $request, int $id): JsonResponse
     {
-        $product = Product::find($id);
+        $product = $this->ownedProduct($request, $id);
 
-        if (!$product) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Product not found',
-            ], 404);
+        if ($product->orderItems()->exists()) {
+            $product->update(['is_active' => false]);
+        } else {
+            $product->delete();
         }
-
-        $product->delete();
 
         return response()->json([
             'status' => 'success',
             'message' => 'Product deleted',
         ]);
+    }
+
+    private function ownedProduct(Request $request, int $id): Product
+    {
+        $product = Product::where('seller_id', $request->user()->id)->find($id);
+        abort_unless($product, 404, 'Produk tidak ditemukan.');
+
+        return $product;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function rules(Request $request, bool $imageRequired): array
+    {
+        return [
+            'category_id' => ['required', 'integer', Rule::exists('categories', 'id')->where('seller_id', $request->user()->id)],
+            'name' => 'required|string|max:150',
+            'description' => 'nullable|string|max:5000',
+            'price' => 'required|integer|min:100|max:1000000000',
+            'stock' => 'required|integer|min:0|max:100000',
+            'image' => [$imageRequired ? 'required' : 'nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ];
     }
 }

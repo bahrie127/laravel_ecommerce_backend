@@ -22,8 +22,12 @@
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_STORE" value="array"/>
-        <!-- <env name="DB_CONNECTION" value="sqlite"/> -->
-        <!-- <env name="DB_DATABASE" value=":memory:"/> -->
+        <!-- Suite memakai MySQL terpisah (lock/increment stok perlu perilaku MySQL); jangan arahkan ke DB dev. -->
+        <env name="DB_DATABASE" value="ecommerce_test"/>
+        <env name="MIDTRANS_SERVER_KEY" value=""/>
+        <env name="AGORA_APP_ID" value=""/>
+        <env name="AGORA_APP_CERTIFICATE" value=""/>
+        <env name="FIREBASE_CREDENTIALS" value=""/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="QUEUE_CONNECTION" value="sync"/>

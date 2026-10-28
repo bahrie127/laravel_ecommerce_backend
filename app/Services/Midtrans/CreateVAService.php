@@ -19,30 +19,29 @@ class CreateVAService extends Midtrans
     {
 
         $itemDetails = [];
-        // dd($this->order->orderItems);
         foreach ($this->order->orderItems as $orderItem) {
             $itemDetails[] = [
                 'id' => $orderItem->product_id,
                 //price string double to integer
                 'price' => intval($orderItem->price),
                 'quantity' => $orderItem->quantity,
-                'name' => $orderItem->product->name,
+                'name' => mb_substr($orderItem->product->name, 0, 50),
             ];
         }
 
         //add shipping cost to item details
         $itemDetails[] = [
             'id' => 'SHIPPING_COST',
-            'price' => $this->order->shipping_price,
+            'price' => (int) $this->order->shipping_price,
             'quantity' => 1,
-            'name' => 'SHIPPING_COST',
+            'name' => 'Ongkos kirim',
         ];
 
         $params = [
             'payment_type' => 'bank_transfer',
             'transaction_details' => [
                 'order_id' => $this->order->transaction_number,
-                'gross_amount' => $this->order->grand_total,
+                'gross_amount' => (int) $this->order->grand_total,
             ],
             'item_details' => $itemDetails,
             'customer_details' => [
@@ -54,7 +53,6 @@ class CreateVAService extends Midtrans
             ],
         ];
 
-        // dd($params);
 
         $response = CoreApi::charge($params);
 

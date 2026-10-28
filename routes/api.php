@@ -1,76 +1,63 @@
 <?php
 
+use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\AgoraController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CallbackController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ShippingController;
+use App\Http\Controllers\Api\StoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-//register seller
-Route::post('/seller/register', [App\Http\Controllers\Api\AuthController::class, 'registerSeller']);
-
-//login
-Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
-
-//logout
-Route::post('/logout', [App\Http\Controllers\Api\AuthController::class, 'logout'])->middleware('auth:sanctum');
-
-//register customer
-Route::post('/buyer/register', [App\Http\Controllers\Api\AuthController::class, 'registerBuyer']);
-
-//store category
-Route::post('/seller/category', [App\Http\Controllers\Api\CategoryController::class, 'store'])->middleware('auth:sanctum');
-
-//get all categories
-Route::get('/seller/categories', [App\Http\Controllers\Api\CategoryController::class, 'index'])->middleware('auth:sanctum');
-
-//product
-Route::apiResource('/seller/products', App\Http\Controllers\Api\ProductController::class)->middleware('auth:sanctum');
-
-//update product
-Route::post('/seller/products/{id}', [App\Http\Controllers\Api\ProductController::class, 'update'])->middleware('auth:sanctum');
-
-//address
-Route::apiResource('/buyer/addresses', App\Http\Controllers\Api\AddressController::class)->middleware('auth:sanctum');
-
-//order
-Route::post('/buyer/orders', [App\Http\Controllers\Api\OrderController::class, 'createOrder'])->middleware('auth:sanctum');
-
-//store
-Route::get('/buyer/stores', [App\Http\Controllers\Api\StoreController::class, 'index'])->middleware('auth:sanctum');
-
-//product by store
-Route::get('/buyer/stores/{id}/products', [App\Http\Controllers\Api\StoreController::class, 'productByStore'])->middleware('auth:sanctum');
-
-//update resi
-Route::put('/seller/orders/{id}/update-resi', [App\Http\Controllers\Api\OrderController::class, 'updateShippingNumber'])->middleware('auth:sanctum');
-
-//history order buyer
-Route::get('/buyer/histories', [App\Http\Controllers\Api\OrderController::class, 'historyOrderBuyer'])->middleware('auth:sanctum');
-
-//history order seller
-Route::get('/seller/orders', [App\Http\Controllers\Api\OrderController::class, 'historyOrderSeller'])->middleware('auth:sanctum');
-
-//get store is livestreaming
-Route::get('/buyer/stores/livestreaming', [App\Http\Controllers\Api\StoreController::class, 'livestreaming'])->middleware('auth:sanctum');
-
-//callback midtrans
+// Publik
+Route::middleware('throttle:10,1')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/seller/register', [AuthController::class, 'registerSeller']);
+    Route::post('/buyer/register', [AuthController::class, 'registerBuyer']);
+});
 Route::post('/midtrans/callback', [CallbackController::class, 'callback']);
 
-//check order status
-Route::get('/buyer/orders/{id}/status', [App\Http\Controllers\Api\OrderController::class, 'checkOrderStatus'])->middleware('auth:sanctum');
+// Wilayah dipakai form daftar penjual sebelum login.
+Route::prefix('shipping')->middleware('throttle:60,1')->group(function () {
+    Route::get('/province', [ShippingController::class, 'provinces']);
+    Route::get('/city', [ShippingController::class, 'cities']);
+    Route::get('/subdistrict', [ShippingController::class, 'subdistricts']);
+});
 
-//get order by id
-Route::get('/orders/{id}', [App\Http\Controllers\Api\OrderController::class, 'getOrderById'])->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', fn (Request $request) => $request->user());
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/update-fcm-token', [AuthController::class, 'updateFcmToken']);
 
-//get agora token
-Route::post('/agora/token', [App\Http\Controllers\Api\AgoraController::class, 'getToken'])->middleware('auth:sanctum');
+    Route::post('/shipping/cost', [ShippingController::class, 'cost']);
+    Route::post('/shipping/waybill', [ShippingController::class, 'waybill']);
+    Route::get('/orders/{order}', [OrderController::class, 'getOrderById']);
+    Route::post('/agora/token', [AgoraController::class, 'getToken']);
 
-//set is livestreaming
-Route::post('/seller/livestreaming', [App\Http\Controllers\Api\StoreController::class, 'setLivestreaming'])->middleware('auth:sanctum');
+    // Penjual
+    Route::prefix('seller')->middleware('role:seller')->group(function () {
+        Route::post('/category', [CategoryController::class, 'store']);
+        Route::get('/categories', [CategoryController::class, 'index']);
+        Route::apiResource('/products', ProductController::class)->except('show');
+        Route::post('/products/{id}', [ProductController::class, 'update']);
+        Route::get('/orders', [OrderController::class, 'historyOrderSeller']);
+        Route::put('/orders/{order}/update-resi', [OrderController::class, 'updateShippingNumber']);
+        Route::post('/livestreaming', [StoreController::class, 'setLivestreaming']);
+        Route::get('/summary', [StoreController::class, 'summary']);
+    });
 
-//update fcm token
-Route::put('/update-fcm-token', [App\Http\Controllers\Api\AuthController::class, 'updateFcmToken'])->middleware('auth:sanctum');
-
+    // Pembeli
+    Route::prefix('buyer')->middleware('role:user')->group(function () {
+        Route::apiResource('/addresses', AddressController::class)->except('show');
+        Route::post('/orders', [OrderController::class, 'createOrder']);
+        Route::get('/orders/{order}/status', [OrderController::class, 'checkOrderStatus']);
+        Route::post('/orders/{order}/simulate-payment', [OrderController::class, 'simulatePayment']);
+        Route::get('/histories', [OrderController::class, 'historyOrderBuyer']);
+        Route::get('/stores', [StoreController::class, 'index']);
+        Route::get('/stores/livestreaming', [StoreController::class, 'livestreaming']);
+        Route::get('/stores/{id}/products', [StoreController::class, 'productByStore'])->whereNumber('id');
+    });
+});
